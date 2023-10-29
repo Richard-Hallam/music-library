@@ -3,6 +3,11 @@ const request = require ('supertest');
 const db = require('../src/db')
 const app = require('../src/app');
 
+afterEach(async () => {
+    await db.query('TRUNCATE Artists CASCADE')
+})
+
+
 describe('create artist',() => {
     describe('/artists', () => {
         describe('POST', () => {
@@ -21,7 +26,7 @@ describe('create artist',() => {
                 } = await db.query(`SELECT * FROM Artists WHERE id = ${body.id}`);
                 expect(artistData.name).to.equal('Tame Impala');
                 expect(artistData.genre).to.equal('Rock')
-                }
+                });
             });
         });
     });
